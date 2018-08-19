@@ -1,4 +1,6 @@
+"use strict";
 //
+//	should be read in from a separate file ....
 var list = [
 				{
 					"category": "beverage",
@@ -58,5 +60,49 @@ var list = [
 				}
 			];
 //
+( function ( json ) {
+	function renderItem( itm )	{
+		var el = document.createElement( 'div' );
+		el.classList.add( 'grocery_item' );
+//		'Qty' line
+		var line = document.createElement( 'div' );
+		line.classList.add( 'accent', 'qty' );
+		line.appendChild( document.createTextNode( 'QTY: ' + itm.qty ) );
+		el.appendChild( line );
+//		'item' line
+		line = document.createElement( 'div' );
+		line.classList.add( 'emph' );
+		line.appendChild( document.createTextNode( itm.item ) );
+		el.appendChild( line );
+//		'brand' and 'type' line
+		line = document.createElement( 'div' );
+		line.classList.add( 'stretch' );
+		line.appendChild( document.createTextNode( itm.brand + ' ' + itm.type ) );
+		el.appendChild( line );
+//		'category' line
+		line = document.createElement( 'div' );
+		line.classList.add( 'accent' );
+		line.appendChild( document.createTextNode( itm.category.toUpperCase() ) );
+		el.appendChild( line );
+//		
+		return el;
+	};
+	var sect = document.querySelector( 'section.main' );
+//	create header
+	var hdr = document.createElement( 'div' );
+	hdr.classList.add( 'emph' );
+	hdr.appendChild( document.createTextNode( 'Grocery List' ) );
+	sect.appendChild( hdr );
+//	create grocery list
+	var base = document.createElement( 'div' );
+	base.classList.add( 'grocery_list' );
+//	create each grocery item, adding to list
+	json.forEach( function ( itm ) {
+		var elem = renderItem( itm );
+		base.appendChild( elem );
+	} );
+//	add grocery list to page
+	sect.appendChild( base );
+} )( list );
 var size = list.length;
 //
